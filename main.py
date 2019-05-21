@@ -1,7 +1,5 @@
 from aiohttp import web
 from aiohttp.web_request import Request
-from multidict import MultiDictProxy
-import os
 import time
 
 
@@ -20,7 +18,6 @@ async def handle_upload(request: Request):
     field = await reader.next()
     if field.name != 'file':
         return web.Response(text='field "file" is not provided', status=400)
-    # filename = 'tmp' if field.filename is None else field.filename
     size = 0
     start = time.time_ns()
     while True:
@@ -46,5 +43,5 @@ if __name__ == '__main__':
 
 
 """
-gunicorn my_app_module:my_web_app --bind localhost:8080 --worker-class aiohttp.GunicornUVLoopWebWorker
+ gunicorn main:app --bind localhost:8080 --worker-class aiohttp.GunicornUVLoopWebWorker
 """
